@@ -1,0 +1,15 @@
+,Outlook,Temperature,Humidity,Windy,Play Golf
+0,Rainy,Hot,High,FALSE,No
+1,Rainy,Hot,High,TRUE,No
+2,Overcast,Hot,High,FALSE,Yes
+3,Sunny,Mild,High,FALSE,Yes
+4,Sunny,Cool,Normal,FALSE,Yes
+5,Sunny,Cool,Normal,TRUE,No
+6,Overcast,Cool,Normal,TRUE,Yes
+7,Rainy,Mild,High,FALSE,No
+8,Rainy,Cool,Normal,FALSE,Yes
+9,Sunny,Mild,Normal,FALSE,Yes
+10,Rainy,Mild,Normal,TRUE,Yes
+11,Overcast,Mild,High,TRUE,Yes
+12,Overcast,Hot,Normal,FALSE,Yes
+13,Sunny,Mild,High,TRUE,No
