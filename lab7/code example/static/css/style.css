@@ -1,0 +1,40 @@
+/* My css style rules for this web app. */
+.card{
+    margin-top: 30px;
+    margin-bottom: 100px;
+    margin-left: 150px;
+    margin-right: 150px;
+}
+
+.card-text{
+    padding-top: 5px;
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+.container{
+    width: 100%;
+}
+
+.btn{
+    width: 100%;
+    font-size: xx-large;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.form-select, .form-control, .card-header, .card-footer{
+    background-color: rgb(240, 240, 240);
+}
+
+.form-select, .form-control{
+    margin-bottom: 20px;
+}
+
+.card-title, .card-footer{
+    text-align: center;
+}
+
+.form-text{
+    text-align: center;
+}
