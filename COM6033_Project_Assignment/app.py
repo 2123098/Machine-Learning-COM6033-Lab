@@ -4,20 +4,20 @@ import numpy as np
 import joblib
 from sklearn.preprocessing import StandardScaler
 
-# Initialize Flask app
+#Flask app
 app = Flask(__name__)
 
-# Load the trained models and scaler
+#Loading the trained models and scaler
 scaler = joblib.load(r'C:\Machine-Learning-COM6033-Lab\COM6033_Project_Assignment\scaler.pkl')
 rf_model = joblib.load(r'C:\Machine-Learning-COM6033-Lab\COM6033_Project_Assignment\rf_model.pkl')
 
-# Load the dataset for feature extraction
+#Loading the dataset for feature extraction
 df = pd.read_csv(r'C:\Machine-Learning-COM6033-Lab\COM6033_Project_Assignment\laptop_price.csv')
 orig_df = df
-df.drop(columns=['laptop_ID', 'Product', 'Inches'], inplace=True)  # Drop unnecessary columns
-df.dropna(inplace=True)  # Drop rows with missing values
+df.drop(columns=['laptop_ID', 'Product', 'Inches'], inplace=True)
+df.dropna(inplace=True)
 
-# Preprocess the memory column
+#This is the memory column same as Project_Assignment.ipynb
 def process_memory(memory):
     memory = memory.replace('GB', '').replace('TB', '000').replace('Hybrid', '').strip()
     parts = memory.split('+')
@@ -39,7 +39,7 @@ def process_memory(memory):
     
     return storage
 
-# Preprocess the memory column to extract SSD, HDD, etc.
+
 memory_data = df['Memory'].apply(process_memory)
 df['SSD'] = memory_data.apply(lambda x: x['SSD'])
 df['HDD'] = memory_data.apply(lambda x: x['HDD'])
@@ -47,27 +47,27 @@ df['Flash_Storage'] = memory_data.apply(lambda x: x['Flash_Storage'])
 df['Hybrid'] = memory_data.apply(lambda x: x['Hybrid'])
 df.drop(columns=['Memory'], inplace=True)
 
-# Extract additional features and encode categorical variables
+
 df['Cpu_Brand'] = df['Cpu'].apply(lambda x: x.split()[0])
 df['Gpu_Brand'] = df['Gpu'].apply(lambda x: x.split()[0])
 df['Resolution'] = df['ScreenResolution'].apply(lambda x: '4K' if '4K' in x else ('Full HD' if 'Full HD' in x else 'Others'))
 
-# Use get_dummies for categorical columns, just like during model training
+#Using get_dummies for categorical columns same as what I during model training
 df = pd.get_dummies(df, columns=['Company', 'TypeName', 'OpSys', 'Resolution', 'Gpu_Brand'], drop_first=True)
 
-# Split the dataset into features (X) and target (y)
+#Splitting the dataset into features (X) and target (y)
 X = df.drop(columns=['Price_in_euros'])
 y = df['Price_in_euros']
 
-# Standardize features
-X = X.select_dtypes(include=[np.number])  # Ensure only numeric columns are used
+#Standardise features
+X = X.select_dtypes(include=[np.number])
 X_train = scaler.fit_transform(X)
 
-# Define the home route
+#Here, I am defining the home route
 @app.route('/', methods=['GET', 'POST'])
 def home():
     if request.method == 'POST':
-        # Get data from the form
+        #Getting data from the form
         form_data = {
             'name': request.form['name'],
             'ram': int(request.form['ram']),
@@ -81,33 +81,31 @@ def home():
             'hybrid': int(request.form['hybrid'])
         }
         
-        # Convert the form data to DataFrame
+        #Converting the form data to DataFrame
         user_data = pd.DataFrame([form_data])
 
-        # Perform the same preprocessing as done for the training data:
         
-        # 1. Process memory
+        #Process memory
         user_data['SSD'] = form_data['ssd']
         user_data['HDD'] = form_data['hdd']
         user_data['Flash_Storage'] = form_data['flash_storage']
         user_data['Hybrid'] = form_data['hybrid']
         
-        # 2. Handle categorical variables (One-hot encode)
+        #Handling categorical variables (One-hot encode)
         user_data = pd.get_dummies(user_data, columns=['cpu_brand', 'gpu_brand', 'resolution'], drop_first=True)
         
-        # 3. Align user_data columns to match the training data
-        # Add missing columns and fill with zeros (important for one-hot encoding mismatches)
+        #Aligning user_data columns to match the training data
         user_data = user_data.reindex(columns=X.columns, fill_value=0)
         
-        # 4. Apply the same scaling
+        #Applying the same scaling
         user_data_scaled = scaler.transform(user_data)
 
-        # Make the prediction
+        #Making the prediction
         prediction = rf_model.predict(user_data_scaled)
         return render_template('prediction.html', prediction=prediction[0])
     
     return render_template('index.html')
 
-# Start the Flask app
+#Starting Flask app
 if __name__ == '__main__':
     app.run(debug=True)
