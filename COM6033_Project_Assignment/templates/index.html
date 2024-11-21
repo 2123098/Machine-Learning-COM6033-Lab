@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Webpage title -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laptop Price Prediction</title>
+
+    <!-- Bootstrap CSS for styling and responsive design -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
+    <!-- Main container to for content -->
     <div class="container mt-5">
         <h2 class="text-center">Laptop Price Prediction</h2>
         <form method="POST">
@@ -19,6 +23,7 @@
                 </select>
             </div>
 
+            <!-- Form group for CPU Brand selection -->
             <div class="form-group">
                 <label for="cpu_brand">CPU Brand</label>
                 <select class="form-control" id="cpu_brand" name="cpu_brand" required>
@@ -28,6 +33,7 @@
                 </select>
             </div>
 
+            <!-- Form group for Weight selection -->
             <div class="form-group">
                 <label for="weight">Weight (kg)</label>
                 <select class="form-control" id="weight" name="weight" required>
@@ -37,6 +43,7 @@
                 </select>
             </div>
 
+            <!-- Form group for Company selection -->
             <div class="form-group">
                 <label for="company">Company</label>
                 <select class="form-control" id="company" name="company" required>
@@ -46,6 +53,7 @@
                 </select>
             </div>
 
+            <!-- Form group for Type Name selection -->
             <div class="form-group">
                 <label for="typename">Type Name</label>
                 <select class="form-control" id="typename" name="typename" required>
@@ -55,6 +63,7 @@
                 </select>
             </div>
 
+            <!-- Form group for Operating System selection -->
             <div class="form-group">
                 <label for="opsystem">Operating System</label>
                 <select class="form-control" id="opsystem" name="opsystem" required>
@@ -64,6 +73,7 @@
                 </select>
             </div>
 
+            <!-- Form group for Resolution selection -->
             <div class="form-group">
                 <label for="resolution">Resolution</label>
                 <select class="form-control" id="resolution" name="resolution" required>
@@ -73,6 +83,7 @@
                 </select>
             </div>
 
+            <!-- Form group for GPU Brand selection -->
             <div class="form-group">
                 <label for="gpu_brand">GPU Brand</label>
                 <select class="form-control" id="gpu_brand" name="gpu_brand" required>
@@ -82,30 +93,37 @@
                 </select>
             </div>
 
+            <!-- Input field for SSD storage input -->
             <div class="form-group">
                 <label for="ssd">SSD (GB)</label>
                 <input type="number" class="form-control" id="ssd" name="ssd" required>
             </div>
 
+            <!-- Input field for HDD storage input -->
             <div class="form-group">
                 <label for="hdd">HDD (GB)</label>
                 <input type="number" class="form-control" id="hdd" name="hdd" required>
             </div>
 
+            <!-- Input field for Flash Storage input -->
             <div class="form-group">
                 <label for="flash_storage">Flash Storage (GB)</label>
                 <input type="number" class="form-control" id="flash_storage" name="flash_storage" required>
             </div>
 
+            <!-- Input field for Hybrid Storage input -->
             <div class="form-group">
                 <label for="hybrid">Hybrid Storage</label>
                 <input type="number" class="form-control" id="hybrid" name="hybrid" required>
             </div>
 
+            <!-- Submit button -->
             <button type="submit" class="btn btn-primary btn-block">Predict Price</button>
         </form>
     </div>
 
+    
+    <!-- JavaScript for Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
