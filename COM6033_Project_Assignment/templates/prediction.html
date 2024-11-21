@@ -3,11 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prediction</title>
+    <title>Laptop Price Prediction Result</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>Laptop Price Prediction</h1>
-    <p>The predicted price for your laptop is: €{{ prediction }}</p>
-    <a href="/">Go back to the form</a>
+    <div class="container mt-5">
+        <h2 class="text-center">Prediction Result</h2>
+        <div class="alert alert-success text-center">
+            <h4>The predicted price of your laptop is:</h4>
+            <h3>€{{ predicted_price }}</h3>
+        </div>
+        <div class="text-center">
+            <a href="{{ url_for('index') }}" class="btn btn-primary">Go Back</a>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>

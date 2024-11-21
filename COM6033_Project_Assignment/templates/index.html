@@ -4,42 +4,110 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laptop Price Prediction</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>Laptop Price Prediction</h1>
-    <form action="/" method="POST">
-        <label for="name">Laptop Name:</label><br>
-        <input type="text" name="name" id="name" required><br><br>
+    <div class="container mt-5">
+        <h2 class="text-center">Laptop Price Prediction</h2>
+        <form method="POST">
+            <div class="form-group">
+                <label for="ram">RAM (GB)</label>
+                <select class="form-control" id="ram" name="ram" required>
+                    {% for r in ram %}
+                    <option value="{{ r }}">{{ r }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-        
-        <label for="ram">RAM (GB):</label><br>
-        <input type="number" name="ram" id="ram" required><br><br>
+            <div class="form-group">
+                <label for="cpu_brand">CPU Brand</label>
+                <select class="form-control" id="cpu_brand" name="cpu_brand" required>
+                    {% for cpu in cpu_brands %}
+                    <option value="{{ cpu }}">{{ cpu }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-        <label for="cpu_brand">CPU Brand:</label><br>
-        <input type="text" name="cpu_brand" id="cpu_brand" required><br><br>
+            <div class="form-group">
+                <label for="weight">Weight (kg)</label>
+                <select class="form-control" id="weight" name="weight" required>
+                    {% for w in weights %}
+                    <option value="{{ w }}">{{ w }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-        <label for="gpu_brand">GPU Brand:</label><br>
-        <input type="text" name="gpu_brand" id="gpu_brand" required><br><br>
+            <div class="form-group">
+                <label for="company">Company</label>
+                <select class="form-control" id="company" name="company" required>
+                    {% for company in companies %}
+                    <option value="{{ company }}">{{ company }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-        <label for="resolution">Resolution:</label><br>
-        <input type="text" name="resolution" id="resolution" required><br><br>
+            <div class="form-group">
+                <label for="typename">Type Name</label>
+                <select class="form-control" id="typename" name="typename" required>
+                    {% for typename in typenames %}
+                    <option value="{{ typename }}">{{ typename }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-        <label for="weight">Weight (kg):</label><br>
-        <input type="number" step="0.1" name="weight" id="weight" required><br><br>
+            <div class="form-group">
+                <label for="opsystem">Operating System</label>
+                <select class="form-control" id="opsystem" name="opsystem" required>
+                    {% for os in opsystems %}
+                    <option value="{{ os }}">{{ os }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-        <label for="ssd">SSD (GB):</label><br>
-        <input type="number" name="ssd" id="ssd" required><br><br>
+            <div class="form-group">
+                <label for="resolution">Resolution</label>
+                <select class="form-control" id="resolution" name="resolution" required>
+                    {% for res in resolutions %}
+                    <option value="{{ res }}">{{ res }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-        <label for="hdd">HDD (GB):</label><br>
-        <input type="number" name="hdd" id="hdd" required><br><br>
+            <div class="form-group">
+                <label for="gpu_brand">GPU Brand</label>
+                <select class="form-control" id="gpu_brand" name="gpu_brand" required>
+                    {% for gpu in gpu_brands %}
+                    <option value="{{ gpu }}">{{ gpu }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-        <label for="flash_storage">Flash Storage (GB):</label><br>
-        <input type="number" name="flash_storage" id="flash_storage" required><br><br>
+            <div class="form-group">
+                <label for="ssd">SSD (GB)</label>
+                <input type="number" class="form-control" id="ssd" name="ssd" required>
+            </div>
 
-        <label for="hybrid">Hybrid (GB):</label><br>
-        <input type="number" name="hybrid" id="hybrid" required><br><br>
+            <div class="form-group">
+                <label for="hdd">HDD (GB)</label>
+                <input type="number" class="form-control" id="hdd" name="hdd" required>
+            </div>
 
-        <button type="submit">Predict Price</button>
-    </form>
+            <div class="form-group">
+                <label for="flash_storage">Flash Storage (GB)</label>
+                <input type="number" class="form-control" id="flash_storage" name="flash_storage" required>
+            </div>
+
+            <div class="form-group">
+                <label for="hybrid">Hybrid Storage</label>
+                <input type="number" class="form-control" id="hybrid" name="hybrid" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Predict Price</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 </body>
 </html>
