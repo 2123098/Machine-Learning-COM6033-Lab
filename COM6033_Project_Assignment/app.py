@@ -2,22 +2,22 @@ from flask import Flask, render_template, request, redirect, url_for
 import pandas as pd
 import joblib
 
-# Initialize Flask app
+#Initialising Flask app
 app = Flask(__name__)
 
-# Load the trained Linear Regression model and dataset
+#Loading the trained Linear Regression model and dataset
 model = joblib.load(r'C:\Machine-Learning-COM6033-Lab\COM6033_Project_Assignment\LinearRegressionModel.pkl')
 data = pd.read_csv(r'C:\Machine-Learning-COM6033-Lab\COM6033_Project_Assignment\cleaned_laptop_data.csv')
 scaler = joblib.load(r'C:\Machine-Learning-COM6033-Lab\COM6033_Project_Assignment\scaler.pkl')
 feature_names = data.drop(columns=['Price_in_euros']).columns  # Drop the target column
 
-# Get unique values for dropdown fields
+#Here, I getting unique values for dropdown fields
 ram = sorted(data['Ram'].unique())
 cpu_brands = sorted(data['Cpu_Brand'].unique())
 weights = sorted(data['Weight'].unique())
 companies = sorted(data['Company'].unique())
 
-# Dynamically extract unique values for TypeName, OpSys, Resolution, and Gpu_Brand
+#Dynamically extracting unique values for TypeName, OpSys, Resolution, and Gpu_Brand
 typenames = [col.replace('TypeName_', '') for col in data.columns if col.startswith('TypeName_')]
 opsystems = [col.replace('OpSys_', '') for col in data.columns if col.startswith('OpSys_')]
 resolutions = [col.replace('Resolution_', '') for col in data.columns if col.startswith('Resolution_')]
@@ -27,7 +27,7 @@ gpu_brands = [col.replace('Gpu_Brand_', '') for col in data.columns if col.start
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        # Retrieve form data
+        #Retrieving form the data
         form_ram = int(request.form['ram'])
         form_cpu_brand = request.form['cpu_brand']
         form_weight = float(request.form['weight'])
@@ -41,35 +41,35 @@ def index():
         form_flash_storage = int(request.form['flash_storage'])
         form_hybrid = int(request.form['hybrid'])
 
-        # Prepare typename one-hot encoded data
+        #Preparing typename one-hot encoded data
         typename_columns = [col for col in data.columns if col.startswith('TypeName_')]
         typename_data = {col: 0 for col in typename_columns}
         typename_column = f'TypeName_{form_typename}'
         if typename_column in typename_data:
             typename_data[typename_column] = 1
 
-        # Prepare resolution one-hot encoded data
+        #Same here for resolution one-hot encoded data
         resolution_columns = [col for col in data.columns if col.startswith('Resolution_')]
         resolution_data = {col: 0 for col in resolution_columns}
         resolution_column = f'Resolution_{form_resolution}'
         if resolution_column in resolution_data:
             resolution_data[resolution_column] = 1
 
-        # Prepare GPU brand one-hot encoded data
+        #For GPU brand one-hot encoded data
         gpu_columns = [col for col in data.columns if col.startswith('Gpu_Brand_')]
         gpu_data = {col: 0 for col in gpu_columns}
         gpu_column = f'Gpu_Brand_{form_gpu_brand}'
         if gpu_column in gpu_data:
             gpu_data[gpu_column] = 1
 
-        # Handle one-hot encoding for OpSys dynamically
+        #Lasting, handling one-hot encoding for OpSys dynamically
         opsys_columns = [col for col in data.columns if col.startswith('OpSys_')]
         opsys_data = {col: 0 for col in opsys_columns}
         opsys_column = f'OpSys_{form_opsystem}'
         if opsys_column in opsys_data:
             opsys_data[opsys_column] = 1
 
-        # Create input dataframe for prediction
+        #Creating input dataframe for prediction
         input_data = pd.DataFrame([{
             'Ram': form_ram,
             'Weight': form_weight,
@@ -79,24 +79,24 @@ def index():
             'Hybrid': form_hybrid,
             'Cpu_Brand': form_cpu_brand,
             'Company': form_company,
-            **typename_data,       # Add typename one-hot encoded data
-            **resolution_data,     # Add resolution one-hot encoded data
-            **gpu_data,            # Add GPU brand one-hot encoded data
-            **opsys_data           # Add OpSys one-hot encoded data
+            **typename_data,       
+            **resolution_data,
+            **gpu_data,
+            **opsys_data
         }])
 
-        # Extract input data from the form
+        #Extracting input data from the form
         input_data = pd.DataFrame([request.form.to_dict()])
 
-        # One-hot encoding for other categorical fields
+        #One-hot encoding for other categorical fields
         input_data = pd.get_dummies(input_data, columns=['Cpu_Brand', 'Company'])
         input_data = input_data.reindex(columns=feature_names, fill_value=0)
 
-        # Make prediction
+        #Making prediction
         prediction = model.predict(input_data)[0]
         prediction = round(prediction, 2)
 
-        # Redirect to prediction result
+        #Redirecting to prediction result
         return redirect(url_for('prediction', predicted_price=prediction))
     
     # Render the form
