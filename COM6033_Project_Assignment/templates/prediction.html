@@ -4,20 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Laptop Price Prediction Result</title>
+
+    <!-- Here, linking to Bootstrap CSS for styling -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
+
+    <!-- Main container  -->
     <div class="container mt-5">
         <h2 class="text-center">Prediction Result</h2>
         <div class="alert alert-success text-center">
             <h4>The predicted price of your laptop is:</h4>
             <h3>€{{ predicted_price }}</h3>
         </div>
+
+
+        <!-- Button to navigate back to the main page -->
         <div class="text-center">
             <a href="{{ url_for('index') }}" class="btn btn-primary">Go Back</a>
         </div>
     </div>
 
+    <!-- JavaScript libraries for Bootstrap interactions -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
