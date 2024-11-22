@@ -89,7 +89,7 @@ def index():
         #One-hot encoding for other categorical fields (Cpu_Brand, Company)
         input_data = pd.get_dummies(input_data, columns=['Cpu_Brand', 'Company'])
 
-        #Aligning input data with feature names (in case some columns were missing)
+        #Aligning input data with feature names
         input_data = input_data.reindex(columns=feature_names, fill_value=0)
 
         #Making prediction
