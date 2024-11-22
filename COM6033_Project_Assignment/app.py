@@ -9,15 +9,16 @@ app = Flask(__name__)
 model = joblib.load(r'C:\Machine-Learning-COM6033-Lab\COM6033_Project_Assignment\LinearRegressionModel.pkl')
 data = pd.read_csv(r'C:\Machine-Learning-COM6033-Lab\COM6033_Project_Assignment\cleaned_laptop_data.csv')
 scaler = joblib.load(r'C:\Machine-Learning-COM6033-Lab\COM6033_Project_Assignment\scaler.pkl')
-feature_names = data.drop(columns=['Price_in_euros']).columns  # Drop the target column
+feature_names = data.drop(columns=['Price_in_euros']).columns 
 
-#Here, I getting unique values for dropdown fields
+#Loading the dataset for form input
+input_data_for_dropdown = pd.read_csv(r'C:\Machine-Learning-COM6033-Lab\COM6033_Project_Assignment\laptop_price.csv')
+
+#Extracting unique values for dropdown fields
 ram = sorted(data['Ram'].unique())
 cpu_brands = sorted(data['Cpu_Brand'].unique())
 weights = sorted(data['Weight'].unique())
 companies = sorted(data['Company'].unique())
-
-#Dynamically extracting unique values for TypeName, OpSys, Resolution, and Gpu_Brand
 typenames = [col.replace('TypeName_', '') for col in data.columns if col.startswith('TypeName_')]
 opsystems = [col.replace('OpSys_', '') for col in data.columns if col.startswith('OpSys_')]
 resolutions = [col.replace('Resolution_', '') for col in data.columns if col.startswith('Resolution_')]
@@ -27,7 +28,7 @@ gpu_brands = [col.replace('Gpu_Brand_', '') for col in data.columns if col.start
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        #Retrieving form the data
+        #Retrieving form data
         form_ram = int(request.form['ram'])
         form_cpu_brand = request.form['cpu_brand']
         form_weight = float(request.form['weight'])
@@ -48,21 +49,21 @@ def index():
         if typename_column in typename_data:
             typename_data[typename_column] = 1
 
-        #Same here for resolution one-hot encoded data
+        #Same for resolution one-hot encoded data
         resolution_columns = [col for col in data.columns if col.startswith('Resolution_')]
         resolution_data = {col: 0 for col in resolution_columns}
         resolution_column = f'Resolution_{form_resolution}'
         if resolution_column in resolution_data:
             resolution_data[resolution_column] = 1
 
-        #For GPU brand one-hot encoded data
+        #Finally, for GPU brand one-hot encoded data
         gpu_columns = [col for col in data.columns if col.startswith('Gpu_Brand_')]
         gpu_data = {col: 0 for col in gpu_columns}
         gpu_column = f'Gpu_Brand_{form_gpu_brand}'
         if gpu_column in gpu_data:
             gpu_data[gpu_column] = 1
 
-        #Lasting, handling one-hot encoding for OpSys dynamically
+        #Handling one-hot encoding for OpSys
         opsys_columns = [col for col in data.columns if col.startswith('OpSys_')]
         opsys_data = {col: 0 for col in opsys_columns}
         opsys_column = f'OpSys_{form_opsystem}'
@@ -85,11 +86,10 @@ def index():
             **opsys_data
         }])
 
-        #Extracting input data from the form
-        input_data = pd.DataFrame([request.form.to_dict()])
-
-        #One-hot encoding for other categorical fields
+        #One-hot encoding for other categorical fields (Cpu_Brand, Company)
         input_data = pd.get_dummies(input_data, columns=['Cpu_Brand', 'Company'])
+
+        #Aligning input data with feature names (in case some columns were missing)
         input_data = input_data.reindex(columns=feature_names, fill_value=0)
 
         #Making prediction
@@ -99,12 +99,12 @@ def index():
         #Redirecting to prediction result
         return redirect(url_for('prediction', predicted_price=prediction))
     
-    # Render the form
+    #Render the form
     return render_template('index.html', ram=ram, cpu_brands=cpu_brands, weights=weights,
                            companies=companies, typenames=typenames, opsystems=opsystems,
                            resolutions=resolutions, gpu_brands=gpu_brands)
 
-# Route for prediction result
+#Route for prediction result
 @app.route('/prediction')
 def prediction():
     predicted_price = request.args.get('predicted_price')
@@ -112,5 +112,3 @@ def prediction():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
